@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  neo4j:
+    image: 'neo4j:latest'
+    volumes:
+      - ./neo4j-data:/data
+    ports:
+      - '7474:7474'
+      - '7473:7473'
+      - '7687:7687'
+    environment:
+      NEO4J_AUTH: neo4j/badbitch
+      NEO4J_dbms_default__database: neoflix
+
+  keycloak:
+
+    image: quay.io/keycloak/keycloak:10.0.2
+    ports:
+      - "8080:8080"
+
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+
+    depends_on:
+      - neo4j
